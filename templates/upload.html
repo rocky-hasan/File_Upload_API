@@ -1,0 +1,43 @@
+<!-- upload_template.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Display</title>
+</head>
+<body>
+
+  <h2>Upload File</h2>
+  <form method="post" enctype="multipart/form-data" action="{% url 'profile-api' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <hr>
+
+  <h2>Uploaded Files</h2>
+  <ul>
+    {% for candidate in candidates %}
+      <li>
+        <strong>Name:</strong> {{ candidate.name }}<br>
+        <strong>Email:</strong> {{ candidate.email }}<br>
+        <strong>State:</strong> {{ candidate.state }}<br>
+        <strong>Gender:</strong> {{ candidate.gender }}<br>
+        <strong>Location:</strong> {{ candidate.location }}<br>
+        {% if candidate.profile_image %}
+          <img src="{{ candidate.profile_image.url }}" alt="{{ candidate.name }}'s Profile Image" style="max-width: 200px; max-height: 200px;">
+        {% endif %}
+        <br>
+        {% if candidate.filedoc %}
+          <a href="{{ candidate.filedoc.url }}" target="_blank">Download File</a>
+        {% endif %}
+        <br>
+        <small>Created at: {{ candidate.created_at }}</small>
+      </li>
+      <hr>
+    {% endfor %}
+  </ul>
+
+</body>
+</html>
